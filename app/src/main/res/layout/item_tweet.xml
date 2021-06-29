@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="189dp"
+        android:layout_marginStart="105dp"
         android:layout_toEndOf="@+id/tvScreenName"
         android:gravity="right"
         android:textAlignment="gravity"
