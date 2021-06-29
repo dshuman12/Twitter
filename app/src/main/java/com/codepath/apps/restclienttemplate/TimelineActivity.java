@@ -2,6 +2,7 @@ package com.codepath.apps.restclienttemplate;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -67,5 +68,11 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG, "onFailure!" + response, throwable);
             }
         });
+    }
+
+    public void onLogoutButton(View view) {
+        Log.d(TAG, "Logout called");
+        mClient.clearAccessToken();
+        finish();
     }
 }
