@@ -35,7 +35,12 @@ public class Tweet extends Throwable {
 
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
-        tweet.mBody = jsonObject.getString("full_text");
+        if (jsonObject.has("full_text")) {
+            tweet.mBody = jsonObject.getString("full_text");
+        }
+        else {
+            tweet.mBody = jsonObject.getString("text");
+        }
         tweet.mCreatedAt = jsonObject.getString("created_at");
         tweet.mUser = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.mId = jsonObject.getString("id_str");
