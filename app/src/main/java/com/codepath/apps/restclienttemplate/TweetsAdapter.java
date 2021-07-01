@@ -56,6 +56,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView mTvBody;
         TextView mTvScreenName;
         TextView mTvRelativeTimestamp;
+        ImageView mIvMedia;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,6 +64,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             mTvBody = itemView.findViewById(R.id.tvBody);
             mTvScreenName = itemView.findViewById(R.id.tvScreenName);
             mTvRelativeTimestamp = itemView.findViewById(R.id.tvRelativeTimestamp);
+            mIvMedia = itemView.findViewById(R.id.ivMedia);
         }
 
         public void bind(Tweet tweet) {
@@ -70,6 +72,18 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             mTvScreenName.setText(tweet.mUser.mScreenName);
             Glide.with(mContext).load(tweet.mUser.mPublicImageUrl).into(mIvProfileImage);
             mTvRelativeTimestamp.setText(tweet.getRelativeTimeAgo(tweet.mCreatedAt));
+            Glide.with(mContext).load(tweet.getFirstMedia()).into(mIvMedia);
         }
+    }
+
+    public void clear() {
+        mTweets.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Tweet> list) {
+        mTweets.addAll(list);
+        notifyDataSetChanged();
     }
 }

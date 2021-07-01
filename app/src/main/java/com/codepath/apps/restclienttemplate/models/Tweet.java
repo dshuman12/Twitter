@@ -25,16 +25,26 @@ public class Tweet extends Throwable {
     public String mBody;
     public String mCreatedAt;
     public User mUser;
+    public List<String> mMedias;
 
     // empty constructor for the Parceler library
     public Tweet(){}
 
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
-        tweet.mBody = jsonObject.getString("text");
+        tweet.mBody = jsonObject.getString("full_text");
         tweet.mCreatedAt = jsonObject.getString("created_at");
         tweet.mUser = User.fromJson(jsonObject.getJSONObject("user"));
-
+        JSONObject entities = jsonObject.getJSONObject("entities");
+        if (entities.has("media")) {
+            Log.d(TAG, "HAS MEDIA");
+            tweet.mMedias = tweet.fromJsonArrayMedia(entities.getJSONArray("media"));
+            Log.d(TAG, tweet.mBody + tweet.mMedias.toString());
+        }
+        else {
+            //If there is no media
+            tweet.mMedias = new ArrayList<String>();
+        }
         return tweet;
     }
 
@@ -44,6 +54,14 @@ public class Tweet extends Throwable {
             tweets.add(fromJson(jsonArray.getJSONObject(i)));
         }
         return tweets;
+    }
+
+    public static List<String> fromJsonArrayMedia(JSONArray jsonArray) throws JSONException {
+        List<String> medias = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            medias.add(jsonArray.getJSONObject(i).getString("media_url_https"));
+        }
+        return medias;
     }
 
     public String getRelativeTimeAgo(String rawJsonDate) {
@@ -76,6 +94,13 @@ public class Tweet extends Throwable {
             e.printStackTrace();
         }
 
+        return "";
+    }
+
+    public String getFirstMedia() {
+        if (mMedias.size() > 0) {
+            return mMedias.get(0);
+        }
         return "";
     }
 }

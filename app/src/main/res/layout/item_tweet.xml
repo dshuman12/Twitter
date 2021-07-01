@@ -41,4 +41,13 @@
         android:gravity="right"
         android:textAlignment="gravity"
         tools:text="7m" />
+
+    <ImageView
+        android:id="@+id/ivMedia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvBody"
+        android:layout_marginTop="5dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
 </RelativeLayout>
