@@ -66,6 +66,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView mTvRelativeTimestamp;
         ImageView mIvMedia;
         ImageView mIvFavorite;
+        ImageView mIvRetweet;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,6 +76,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             mTvRelativeTimestamp = itemView.findViewById(R.id.tvRelativeTimestamp);
             mIvMedia = itemView.findViewById(R.id.ivMedia);
             mIvFavorite = itemView.findViewById(R.id.ivFavorite);
+            mIvRetweet = itemView.findViewById(R.id.ivRetweet);
         }
 
         public void bind(final Tweet tweet) {
@@ -103,7 +105,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
                             @Override
                             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                                Log.e(TAG, "onFailure to publish tweet", throwable);
+                                Log.e(TAG, "onFailure to like tweet", throwable);
                             }
                         });
                     }
@@ -125,44 +127,47 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 }
             });
 
-        }
-
-        public void onLike(View v) {
-            // Get the movie that was clicked
-            int position = getAdapterPosition();
-            // Ensures a valid position
-            if (position != RecyclerView.NO_POSITION) {
-                Tweet tweet = mTweets.get(position);
-                // Send data to the Movie Details Activity
-                //Intent intent = new Intent(mcontext, MovieDetailsActivity.class);
-                //intent.putExtra(Movie.class.getSimpleName(), Parcels.wrap(movie));
-                // Shows the Movie Details page
-                //mcontext.startActivity(intent);
-                Log.d("TweetAdapter", "Tweet id" + tweet.mId);
-                //mClient.publishLike(tweet.mId, new JsonHttpResponseHandler() {
-//                    @Override
-//                    public void onSuccess(int statusCode, Headers headers, JSON json) {
-//                        Log.i(TAG, "onSuccess to publish tweet");
-//                        try {
-//                            Tweet tweet = Tweet.fromJson(json.jsonObject);
-//                            Log.i(TAG, "Published tweet says: ", tweet);
-//                            Intent intent = new Intent();
-//                            intent.putExtra("tweet", Parcels.wrap(tweet));
-//                            setResult(RESULT_OK, intent);
-//                            //Closes the activity, pass data to the parent
-//                            finish();
-//                        }
-//                        catch (JSONException e){
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-//                        Log.e(TAG, "onFailure to publish tweet", throwable);
-//                    }
-//              });
+            if(tweet.mRetweeted) {
+                mIvFavorite.setBackgroundResource(R.drawable.ic_vector_retweet);
             }
+
+            mIvRetweet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("TweetAdapter", "Tweet id" + tweet.mId);
+                    if (!tweet.mRetweeted) {
+                        mClient.publishRetweet(tweet.mId, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                Log.i(TAG, "onSuccess to like tweet");
+                                mIvFavorite.setBackgroundResource(R.drawable.ic_vector_retweet);
+
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(TAG, "onFailure to publish tweet", throwable);
+                            }
+                        });
+                    }
+                    else {
+                        mClient.publishUnRetweet(tweet.mId, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                Log.i(TAG, "onSuccess to like tweet");
+                                mIvFavorite.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
+
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(TAG, "onFailure to publish tweet", throwable);
+                            }
+                        });
+                    }
+                }
+            });
+
         }
     }
 

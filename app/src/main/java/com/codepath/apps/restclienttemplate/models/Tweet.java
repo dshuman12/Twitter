@@ -28,6 +28,7 @@ public class Tweet extends Throwable {
     public List<String> mMedias;
     public String mId;
     public Boolean mFavorited;
+    public Boolean mRetweeted;
 
     // empty constructor for the Parceler library
     public Tweet(){}
@@ -39,6 +40,7 @@ public class Tweet extends Throwable {
         tweet.mUser = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.mId = jsonObject.getString("id_str");
         tweet.mFavorited = jsonObject.getBoolean("favorited");
+        tweet.mRetweeted = jsonObject.getBoolean("retweeted");
 
         JSONObject entities = jsonObject.getJSONObject("entities");
         if (entities.has("media")) {

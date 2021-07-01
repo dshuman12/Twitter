@@ -59,7 +59,7 @@
         android:layout_below="@id/ivMedia"
         android:layout_centerInParent="false"
         android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/ic_vector_retweet" />
+        app:srcCompat="@drawable/ic_vector_retweet_stroke" />
 
     <ImageView
         android:id="@+id/ivFavorite"
