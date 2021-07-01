@@ -28,9 +28,9 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/ivProfileImage"
-        tools:text="This is my Tweet"
         android:autoLink="all"
-        android:linksClickable="true"/>
+        android:linksClickable="true"
+        tools:text="This is my Tweet" />
 
     <TextView
         android:id="@+id/tvRelativeTimestamp"
@@ -51,5 +51,23 @@
         android:layout_below="@id/tvBody"
         android:layout_marginTop="5dp"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/ivRetweet"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@id/ivMedia"
+        android:layout_centerInParent="false"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/ic_vector_retweet" />
+
+    <ImageView
+        android:id="@+id/ivFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@id/ivMedia"
+        android:layout_marginLeft="100dp"
+        app:srcCompat="@drawable/ic_vector_heart_stroke"
+        tools:layout_toRightOf="@id/ivRetweet" />
 
 </RelativeLayout>
